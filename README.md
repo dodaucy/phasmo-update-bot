@@ -58,6 +58,6 @@ Send blog and trello updates in a Discord chat via webhooks.
         restart: always
     ```
 
-3. Start with `docker-compose up -d`
+3. Start with `docker compose up -d`
 
-4. View logs with `docker-compose logs --follow`
+4. View logs with `docker compose logs --follow`
