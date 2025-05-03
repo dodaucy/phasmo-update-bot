@@ -39,22 +39,22 @@ Send blog and trello updates in a Discord chat via webhooks.
 
     ```yml
     services:
-    phasmo_update_bot:
+      phasmo_update_bot:
         build: .  # or image to private registry
         environment:
-        DATABASE_URL: "mysql://root:root@mariadb/phasmo_update_bot"
+          DATABASE_URL: "mysql://root:root@mariadb/phasmo_update_bot"
         env_file:
-        - .env
+          - .env
         depends_on:
-        - mariadb
+          - mariadb
         restart: always
-    mariadb:
+      mariadb:
         image: mariadb:latest
         environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: phasmo_update_bot
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: phasmo_update_bot
         volumes:
-        - ./data/mariadb:/var/lib/mysql
+          - ./data/mariadb:/var/lib/mysql
         restart: always
     ```
 
