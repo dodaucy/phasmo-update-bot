@@ -14,7 +14,6 @@ class BlogItem(BaseModel):
     title: str
     image_url: str
     blog_url: str
-    excerpt: str | None
 
 
 _session = httpx.AsyncClient(
@@ -35,35 +34,22 @@ async def _request_blog() -> list[BlogItem]:
     soup = BeautifulSoup(r.text, "html.parser")
 
     # Get blog items
-    for article in soup.find_all("article", {"class": "blog-item"}):
+    for article in soup.find_all("a", {"class": "post-preview"}):
         article: Tag
 
-        # Summary
-        summary_tag: Tag | None = article.find("section", {"class": "blog-item-summary"})
-        if summary_tag is None:
-            raise Exception("Summary not found")
-
-        # Excerpt
-        excerpt_tag: Tag | None = summary_tag.find("div", {"class": "blog-excerpt"})
-        if excerpt_tag is not None and excerpt_tag.text.strip() != "":
-            excerpt = excerpt_tag.text.strip()
-        else:
-            excerpt = None
-
-        # Image wrapper
-        image_wrapper: Tag | None = article.find("section", {"class": "blog-image-wrapper"})
-        if image_wrapper is None:
-            raise Exception("Image wrapper not found")
+        # check game
+        game: str = article.find("div", {"class": "game"}).text.strip().lower()
+        if game != "phasmophobia":
+            continue
 
         # Blog item
         blog_items.append(BlogItem(
-            title=summary_tag.find("h1", {"class": "blog-title"}).text.strip(),
-            image_url=image_wrapper.find("img")["src"].strip(),
+            title=article.find("div", {"class": "post-title"}).text.strip(),
+            image_url=article.find("img", {"class": "post-preview-image"})["src"].strip(),
             blog_url=urllib.parse.urljoin(
-                BlogConfig.BLOG_SITE_INDEX_URL,
-                summary_tag.find("a", {"class": "blog-more-link"})["href"].strip()
-            ),
-            excerpt=excerpt
+                BlogConfig.BLOG_SITE_BASE_URL,
+                article["href"].strip()
+            )
         ))
 
     return blog_items
@@ -91,7 +77,7 @@ async def check_blog(webhook_managers: list[WebhookManager], db: Database) -> No
                     {
                         "title": blog_item.title,
                         "url": blog_item.blog_url,
-                        "description": blog_item.excerpt,
+                        "description": None,
                         "color": 0x08243F,
                         "author": {
                             "name": "Phasmo Blog",

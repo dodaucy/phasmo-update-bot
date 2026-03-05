@@ -26,8 +26,8 @@ Send blog and trello updates in a Discord chat via webhooks.
     SLEEP_SECONDS=300
 
     # Blog
-    BLOG_URL="https://www.kineticgames.co.uk/blog"
-    BLOG_SITE_INDEX_URL="https://www.kineticgames.co.uk"
+    BLOG_URL="https://kineticgames.co.uk/news"
+    BLOG_SITE_BASE_URL="https://kineticgames.co.uk"
 
     # Trello
     TRELLO_BOARD_ID="9QrnqQ1j"

@@ -16,8 +16,8 @@ SLEEP_SECONDS = float(os.environ.get("SLEEP_SECONDS", 60 * 5))
 
 
 class BlogConfig:
-    BLOG_URL = os.environ.get("BLOG_URL", "https://www.kineticgames.co.uk/blog")
-    BLOG_SITE_INDEX_URL = os.environ.get("BLOG_SITE_INDEX_URL", "https://www.kineticgames.co.uk")
+    BLOG_URL = os.environ.get("BLOG_URL", "https://kineticgames.co.uk/news")
+    BLOG_SITE_BASE_URL = os.environ.get("BLOG_SITE_BASE_URL", "https://kineticgames.co.uk")
 
 
 class TrelloConfig:
